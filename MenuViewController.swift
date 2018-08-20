@@ -16,7 +16,7 @@ class MenuViewController: UIViewController {
   var navBar = UINavigationBar()
   let screen = UIScreen.main.bounds
   var gradientLayer: CAGradientLayer!
-  
+  //  MARK: UI
   lazy var menuButton: UIButton = {
     let button = UIButton()
     button.setImage(#imageLiteral(resourceName: "list"), for: .normal)
@@ -116,6 +116,7 @@ class MenuViewController: UIViewController {
     scrollView.addSubview(groupsView)
     
   }
+  //MARK: Gradient to view
   func createGradientLayer() {
     gradientLayer = CAGradientLayer()
     
@@ -125,6 +126,8 @@ class MenuViewController: UIViewController {
     
     self.backMenu.layer.addSublayer(gradientLayer)
   }
+  
+  //MARK: Autolayout to Scroll View
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     var lastHeight = 60
@@ -141,7 +144,7 @@ class MenuViewController: UIViewController {
   override var prefersStatusBarHidden: Bool {
     return true
   }
-  
+  //  MARK: Constraints
   private func setupNavigationBar(){
     navBar.addSubview(menuButton)
     menuButton.translatesAutoresizingMaskIntoConstraints = false
@@ -217,6 +220,7 @@ class MenuViewController: UIViewController {
     
   }
   
+  //MARK: Gestures
   func swipeMenuHide() {
     let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
     swipeLeft.direction = .left
@@ -259,20 +263,15 @@ class MenuViewController: UIViewController {
   @objc func openMenu(){
     self.updateViewConstraints()
     if !isOpen{
-      UIView.animate(withDuration: 0.5, animations: {
-        self.backMenu.frame.origin.x = self.view.frame.width/1.7
-        self.view.layoutIfNeeded()
-      })
+      self.hideMenu
     }else{
-      UIView.animate(withDuration: 0.4, animations: {
-        self.backMenu.frame.origin.x = 0
-        self.view.layoutIfNeeded()
-      })
+      self.open()
     }
     isOpen = !isOpen
   }
 }
 
+//MARK: custom present to another controllers
 extension UIViewController {
   
   func presentDetail(_ viewControllerToPresent: UIViewController) {
